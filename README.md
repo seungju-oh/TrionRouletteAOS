@@ -1,4 +1,5 @@
 # 🎯 TrionRoulette (트리온 룰렛)
+[Appium 자동화](https://github.com/seungju-oh/TrionRoulette-AOS-Appium-Test)를 위해 AI를 통해 제작된 타깃 앱입니다.
 3가지 모드(기본, 서바이벌, 커스텀 확률)를 지원하며, 사용자 편의성과 QA 테스트 효율성을 극대화한 안드로이드 룰렛 앱입니다.
 
 ## ✨ 핵심 기능 (Features)
