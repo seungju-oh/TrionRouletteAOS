@@ -116,7 +116,6 @@ fun RouletteScreen() {
     var showDialog by remember { mutableStateOf(false) }
 
     var showSaveDialog by remember { mutableStateOf(false) }
-    // !!! 덮어쓰기 확인용 팝업 상태 추가 !!!
     var showOverwriteDialog by remember { mutableStateOf(false) }
 
     var showLoadDialog by remember { mutableStateOf(false) }
@@ -185,10 +184,10 @@ fun RouletteScreen() {
                         RadioButton(
                             selected = mode == RouletteMode.C,
                             onClick = { mode = RouletteMode.C },
-                            // [Appium ID] 라디오 버튼: 모드 C (커스텀) 선택
+                            // [Appium ID] 라디오 버튼: 모드 C (확률) 선택
                             modifier = Modifier.semantics { contentDescription = "radio_mode_c" }
                         )
-                        Text("커스텀 (C)")
+                        Text("확률 (C)")
                     }
                 }
 
@@ -222,7 +221,7 @@ fun RouletteScreen() {
                             // [Appium ID] 체크박스: 애니메이션 스킵 체크
                             modifier = Modifier.semantics { contentDescription = "chk_skip_animation" }
                         )
-                        Text("애니메이션 스킵 (빠른 결과)")
+                        Text("룰렛 회전 생략")
                     }
                     Button(
                         onClick = {
@@ -233,10 +232,10 @@ fun RouletteScreen() {
                                     val winner = currentDisplayItems[winnerIndex]
                                     if (skipAnimation) { rotation.snapTo((rotation.value + Random.nextInt(0, 360)) % 360f) }
                                     else { rotation.animateTo(rotation.value + 1800f + Random.nextInt(0, 360), tween(3000, easing = FastOutSlowInEasing)) }
-                                    resultText = "'${winner.text}' 당첨!"; showDialog = true
+                                    resultText = "결과: '${winner.text}'"; showDialog = true
                                     if (mode == RouletteMode.B) {
                                         val newEliminatedIds = eliminatedIds + winner.id
-                                        if (items.all { it.id in newEliminatedIds }) { eliminatedIds = emptySet(); Toast.makeText(context, "초기화되었습니다.", Toast.LENGTH_SHORT).show() }
+                                        if (items.all { it.id in newEliminatedIds }) { eliminatedIds = emptySet(); Toast.makeText(context, "(잔여 항목이 없습니다. 전체 항목을 재활성화 합니다.)", Toast.LENGTH_SHORT).show() }
                                         else { eliminatedIds = newEliminatedIds }
                                     }
                                 }
@@ -359,7 +358,7 @@ fun RouletteScreen() {
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text("결과") },
+            // title = { Text("결과") },
             text = { Text(resultText ?: "", fontSize = 24.sp, fontWeight = FontWeight.Bold) },
             confirmButton = {
                 Button(
@@ -390,13 +389,13 @@ fun RouletteScreen() {
                     onClick = {
                         if (presetNameToSave.isNotBlank()) {
                             val existingNames = loadPresetNames(context)
-                            // !!! 중복 검사 로직 추가 !!!
+                            // 중복 검사 로직
                             if (existingNames.contains(presetNameToSave)) {
                                 showSaveDialog = false
                                 showOverwriteDialog = true // 중복 시 덮어쓰기 확인 팝업 호출
                             } else {
                                 savePreset(context, presetNameToSave, items)
-                                Toast.makeText(context, "'$presetNameToSave' 저장 완료!", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "'$presetNameToSave' 저장 완료", Toast.LENGTH_SHORT).show()
                                 showSaveDialog = false
                                 presetNameToSave = ""
                             }
@@ -416,7 +415,7 @@ fun RouletteScreen() {
         )
     }
 
-    // !!! 새로 추가된 프리셋 덮어쓰기 확인 팝업 !!!
+    // 프리셋 덮어쓰기 확인 팝업
     if (showOverwriteDialog) {
         AlertDialog(
             onDismissRequest = {
@@ -424,12 +423,12 @@ fun RouletteScreen() {
                 showSaveDialog = true // 취소하면 다시 이름 입력 창으로 돌려보냄
             },
             title = { Text("덮어쓰기 확인") },
-            text = { Text("'$presetNameToSave'은(는) 이미 존재하는 목록입니다.\n기존 데이터를 지우고 덮어쓰시겠습니까?") },
+            text = { Text("'$presetNameToSave'은(는) 이미 존재하는 프리셋입니다. 정말 덮어쓰시겠습니까?") },
             confirmButton = {
                 Button(
                     onClick = {
                         savePreset(context, presetNameToSave, items)
-                        Toast.makeText(context, "'$presetNameToSave' 덮어쓰기 완료!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "'$presetNameToSave' 덮어쓰기 완료", Toast.LENGTH_SHORT).show()
                         showOverwriteDialog = false
                         presetNameToSave = ""
                     },
