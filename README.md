@@ -1,4 +1,9 @@
 # 🎯 TrionRoulette for Android (트리온 룰렛)
+<p align="center">
+  <img height="500" alt="5c2d6c38-f6e5-46b5-ba29-62c0a7bea9a9" src="https://github.com/user-attachments/assets/bfa67513-abd7-42a4-92a8-2c6e75132453" />
+  <img height="500" alt="8cdc3682-3a59-4eea-bff4-d208af65f29d" src="https://github.com/user-attachments/assets/463f5d1f-767f-429f-b4ec-d99146c993ac" />
+</p>
+
 [Appium 자동화](https://github.com/seungju-oh/TrionRoulette-AOS-Appium-Test)를 위해 AI를 통해 제작된 타깃 앱입니다.
 3가지 모드(기본, 서바이벌, 커스텀 확률)를 지원하며, 사용자 편의성과 QA 테스트 효율성을 극대화한 안드로이드 룰렛 앱입니다.
 
